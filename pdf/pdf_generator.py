@@ -39,7 +39,7 @@ class PdfGenerator():
         root.destroy()
 
         # Calculate the number of characters that fit in a line.
-        self.width_chars = math.ceil(self.width / self.char_length_pt)
+        self.width_chars = math.ceil(self.width / self.char_length_pt)-15
         margin_bottom_pt = 10
 
         # Create the pdf object.

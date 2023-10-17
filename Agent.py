@@ -44,6 +44,9 @@ def handle_response(text: str) -> str:
     return response
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    pdf = PdfGenerator()
+    print('Pdf initialized.')
+
     message_type: str = update.message.chat.type
     text: str = update.message.text
     print(f'User ({update.message.chat.id})-{update.message.from_user.first_name} in {message_type}: "{text}"')
@@ -69,7 +72,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     pdf.save_pdf()
     print('Num of characters in the response:', len(response))
     # Telegram has a limit of 4096 characters per message. In case the message is longer, will have to split the text
-    if len(response) > 4096:
+    if len(response) > 4000:
         await update.message.reply_text(f'Extrapolation is too long to be sent in one message.\n Splitting into multiple messages...')
         for i in range(0, len(response), 4096):
             await update.message.reply_text(response[i:i+4096])
@@ -87,10 +90,9 @@ if __name__ == '__main__':
     generate_settings()
     print('Settings generated.')
 
-    # Initializing the chat and pdf generator.
+    # Initializing the chat.
     chat = Chat()
-    pdf = PdfGenerator()
-    print('Chat and PDF generator initialized.')
+    print('Chat initialized.')
 
     # Setting up the API key.
     openai.api_key_path = chat.api_key_path
