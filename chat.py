@@ -48,12 +48,3 @@ class Chat:
         self.completion_length = self.max_tokens - tokens_by_chars
 
         return prompt
-
-# # Saving the original text passed.
-# pdf.add_text(f"Original text: {arg}\n")
-
-# # Run GPT
-# response = chat.generate_response(arg=arg)
-# pdf.add_text(f"GPT response: {response}")
-
-# pdf.save_pdf()

@@ -26,6 +26,7 @@ from chat import Chat
 
 # Global variables
 chat: Chat = None
+pdf: PdfGenerator = None
 
 # Commands to interact with the bot
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -52,16 +53,20 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if BOT_NAME in text:
             text_clean: str = text.replace(BOT_NAME, '').strip()
             await update.message.reply_text(f'Idea provided: {text}.')
+            pdf.add_text(f"Idea provided: {text}\n")
             await update.message.reply_text(f'Extrapolation in progress...')
             response: str = handle_response(text_clean)
         else:
             return
     else:
         await update.message.reply_text(f'Idea provided: {text}.')
+        pdf.add_text(f"Idea provided: {text}\n")
         await update.message.reply_text(f'Extrapolation in progress...')
         response: str = handle_response(text)
     
     print('Bot:', response)
+    pdf.add_text(f"Extrapolation:\n {response}")
+    pdf.save_pdf()
     print('Num of characters in the response:', len(response))
     # Telegram has a limit of 4096 characters per message. In case the message is longer, will have to split the text
     if len(response) > 4096:
@@ -69,7 +74,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for i in range(0, len(response), 4096):
             await update.message.reply_text(response[i:i+4096])
     else:
-        await update.message.reply_text(f'Extrapolation: {response}')
+        await update.message.reply_text(f'Extrapolation:\n {response}')
+    await update.message.reply_document(document=open('pdf/txt_result.txt', 'rb'))
+    await update.message.reply_document(document=open('pdf/pdf_result.pdf', 'rb'))
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')

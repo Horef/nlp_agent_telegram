@@ -38,10 +38,10 @@ def generate_settings():
 
     # PDF Generator Settings section
     config_file['PDF Generator Settings'] = {
-        'txt_folder': '/Users/sergiyhoref/Desktop/text_files',
-        'txt_name': 'random', # random is a placeholder for the current time
-        'pdf_folder': '/Users/sergiyhoref/Desktop/pdf_files',
-        'pdf_name': 'random', # random is a placeholder for the current time
+        'txt_folder': 'pdf',
+        'txt_name': 'txt_result', # random is a placeholder for the current time
+        'pdf_folder': 'pdf',
+        'pdf_name': 'pdf_result', # random is a placeholder for the current time
         'document_title': 'Chat Results',
         'title': 'Chat Results',
         'font_size': '14',
